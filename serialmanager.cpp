@@ -1,5 +1,9 @@
 #include "serialmanager.h"
 
+#define LIGHTS_PACKET_HEADER 'l'
+#define PACKET_END_CHAR ';'
+#define LIGHTS_PACKET_SIZE (3+2)
+
 SerialManager::SerialManager(QObject *parent) : QObject(parent)
 {
 	serialPort = new QSerialPort(this);
@@ -46,6 +50,21 @@ bool SerialManager::connectToPort(QString portName)
 		}
 	}
 	return ok;
+}
+
+void SerialManager::sendLightsPacket(LightsPacket packet)
+{
+	QByteArray data = QByteArray(LIGHTS_PACKET_SIZE, 'x');
+	data[0] = LIGHTS_PACKET_HEADER;
+	data[1] = packet.brightness;
+	data[2] = packet.reactToBraking;
+	data[3] = packet.blinkingMode;
+	data[4] = PACKET_END_CHAR;
+	int bytesSent = serialPort->write(data);
+	if(bytesSent != data.size()) {
+		qDebug() << "sendLightsPacket: wrong number of bytes sent: " << bytesSent;
+	}
+	qDebug() << "Sent: " << data;
 }
 
 void SerialManager::onNewSerialData()

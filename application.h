@@ -21,6 +21,7 @@ private slots:
 	void onNewDataManagerLogEntry(QString str);
 	void onClearDataManagerLogClicked();
 	void onSaveDataManagerLog(QString path);
+	void onSendLightsData(LightsPacket packet);
 
 private:
 	DataManager* dataManager;

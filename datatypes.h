@@ -44,4 +44,10 @@ struct ErrorPacket {
   uint16_t code;
 };
 
+struct LightsPacket {
+	uint8_t brightness; // 0-255
+	uint8_t reactToBraking; // 0-no, 1-yes
+	uint8_t blinkingMode;
+};
+
 #endif /* DATATYPES_H_ */

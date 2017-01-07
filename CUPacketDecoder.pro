@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     buffer.cpp \
     gui.cpp \
     datamanager.cpp \
-    logwidget.cpp
+    logwidget.cpp \
+    lightswidget.cpp
 
 HEADERS  += mainwindow.h \
     serialmanager.h \
@@ -32,4 +33,5 @@ HEADERS  += mainwindow.h \
     buffer.h \
     gui.h \
     datamanager.h \
-    logwidget.h
+    logwidget.h \
+    lightswidget.h

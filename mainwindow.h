@@ -6,6 +6,7 @@
 #include <QVector>
 #include "datatypes.h"
 #include "logwidget.h"
+#include "lightswidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,10 +25,12 @@ public:
 signals:
 	void clearLogButtonClicked();
 	void saveLogButtonClicked(QString path);
+	void sendLightsDataClicked(LightsPacket packet);
 
 private slots:
 	void onClearLogButtonClicked();
 	void onSaveLogButtonClicked();
+	void onSendLightsDataClicked();
 
 private:
 	QTabWidget* tabWidget;
@@ -51,6 +54,8 @@ private:
 
 	//data log
 	LogWidget* logWidget;
+	//lights
+	LightsWidget* lightsWidget;
 };
 
 #endif // MAINWINDOW_H

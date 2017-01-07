@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	speedLabel = new QLabel;
 
 	logWidget = new LogWidget;
+	lightsWidget = new LightsWidget;
 
 	//layout
 	QVBoxLayout* currentLayout = new QVBoxLayout;
@@ -76,10 +77,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	tabWidget->addTab(dataWidget, "Data");
 	tabWidget->addTab(logWidget, "Log");
+	tabWidget->addTab(lightsWidget, "Lights");
 	this->setCentralWidget(tabWidget);
 
 	connect(logWidget->saveButton, SIGNAL(clicked(bool)), this, SLOT(onSaveLogButtonClicked()));
 	connect(logWidget->clearButton, SIGNAL(clicked(bool)), this, SLOT(onClearLogButtonClicked()));
+	connect(lightsWidget->sendButton, SIGNAL(clicked(bool)), this, SLOT(onSendLightsDataClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -152,4 +155,18 @@ void MainWindow::onSaveLogButtonClicked()
 		return;
 	}
 	emit saveLogButtonClicked(path);
+}
+
+void MainWindow::onSendLightsDataClicked()
+{
+	LightsPacket packet;
+	packet.brightness = lightsWidget->brightnessSlider->value();
+	packet.reactToBraking = lightsWidget->reactToBrakingCheckBox->isChecked();
+	packet.blinkingMode = 0;
+	for(int i = 0; i < lightsWidget->blinkingModeRadioButtons.size(); i++) {
+		if(lightsWidget->blinkingModeRadioButtons.at(i)->isChecked()) {
+			packet.blinkingMode = i;
+		}
+	}
+	emit sendLightsDataClicked(packet);
 }

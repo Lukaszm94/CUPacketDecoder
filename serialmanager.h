@@ -12,6 +12,7 @@ public:
 	explicit SerialManager(QObject *parent = 0);
 	void setParser(PacketParser* p);
 	bool connectToPort(QString portName);
+	void sendLightsPacket(LightsPacket packet);
 
 private slots:
 	void onNewSerialData();

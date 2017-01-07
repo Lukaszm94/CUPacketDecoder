@@ -8,6 +8,7 @@ Application::Application(int argc, char *argv[]) : QApplication(argc, argv)
 	qRegisterMetaType<CurrentPacket>("CurrentPacket");
 	qRegisterMetaType<TemperaturePacket>("TemperaturePacket");
 	qRegisterMetaType<SpeedPacket>("SpeedPacket");
+	qRegisterMetaType<LightsPacket>("LightsPacket");
 
 	dataManager = new DataManager;
 	serialManager = new SerialManager(this);
@@ -23,6 +24,7 @@ Application::Application(int argc, char *argv[]) : QApplication(argc, argv)
 	connect(dataManager, SIGNAL(newLogEntry(QString)), this, SLOT(onNewDataManagerLogEntry(QString)));
 	connect(gui->mainWindow, SIGNAL(clearLogButtonClicked()), this, SLOT(onClearDataManagerLogClicked()));
 	connect(gui->mainWindow, SIGNAL(saveLogButtonClicked(QString)), this, SLOT(onSaveDataManagerLog(QString)));
+	connect(gui->mainWindow, SIGNAL(sendLightsDataClicked(LightsPacket)), this, SLOT(onSendLightsData(LightsPacket)));
 }
 
 void Application::onNewCurrentPacket(CurrentPacket packet)
@@ -85,4 +87,9 @@ void Application::onSaveDataManagerLog(QString path)
 	} else {
 		qDebug() << "Save failed";
 	}
+}
+
+void Application::onSendLightsData(LightsPacket packet)
+{
+	serialManager->sendLightsPacket(packet);
 }

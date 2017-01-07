@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #define DATA_MANAGER_LOG_PERIOD 200
-#define AUTOSAVE_TIMER_PERIOD_S 10
+#define AUTOSAVE_TIMER_PERIOD_S 120
 
 DataManager::DataManager(QObject *parent) : QObject(parent)
 {
