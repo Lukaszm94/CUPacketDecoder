@@ -8,7 +8,7 @@ SerialManager::SerialManager(QObject *parent) : QObject(parent)
 {
 	serialPort = new QSerialPort(this);
 
-	if(connectToPort("COM22")) {
+	if(connectToPort("COM14")) {
 		qDebug() << "Serial port opened";
 		serialPort->clear();
 	} else {
@@ -56,7 +56,7 @@ void SerialManager::sendLightsPacket(LightsPacket packet)
 {
 	QByteArray data = QByteArray(LIGHTS_PACKET_SIZE, 'x');
 	data[0] = LIGHTS_PACKET_HEADER;
-	data[1] = packet.brightness;
+	data[1] = (uint8_t)(packet.brightness * 2.5);
 	data[2] = packet.reactToBraking;
 	data[3] = packet.blinkingMode;
 	data[4] = PACKET_END_CHAR;
